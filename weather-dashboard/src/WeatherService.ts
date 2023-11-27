@@ -4,7 +4,7 @@ const weatherService = {
   async getWeatherData(date: string): Promise<any> {
     try {
       const response = await axios.get(
-        `https://api.open-meteo.com/v1/forecast?latitude=1.29&longitude=103.85&hourly=relativehumidity_2m,direct_radiation&daily=temperature_2m_max,temperature_2m_min&timezone=Asia%2FSingapore&start_date=${date}&end_date=${date}`
+        `https://api.open-meteo.com/v1/forecast?latitude=1.29&longitude=103.85&hourly=relativehumidity_2m,direct_radiation&daily=temperature_2m_max,temperature_2m_min&timezone=Asia%2FSingapore&start_date=2023-10-01&end_date=2023-10-10`
       );
       return response.data;
     } catch (error) {
