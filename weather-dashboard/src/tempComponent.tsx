@@ -53,7 +53,7 @@ const WeatherComponent: React.FC = () => {
                 },
                 scales: {
                   y: {
-                    beginAtZero: false, // Change according to your data
+                    beginAtZero: false, 
                   },
                 },
               },

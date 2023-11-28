@@ -10,8 +10,9 @@ const WeatherComponent: React.FC = () => {
     const fetchDataAndRenderChart = async () => {
       try {
         const response = await weatherService.getWeatherData('2023-01-01');
-        const directRadiationData = response.hourly.direct_radiation;
-        const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'July', 'August', 'September', 'October'];
+        const directRadiation = response.hourly.direct_radiation;
+        const labels = Array.from({ length: directRadiation.length }, (_, i) => i + 1);
+        const customLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'];
 
         if (radiationCanvasRef.current) {
           const ctx = radiationCanvasRef.current.getContext('2d');
@@ -24,13 +25,13 @@ const WeatherComponent: React.FC = () => {
             chartInstance.current = new Chart(ctx, {
               type: 'line',
               data: {
-                labels: labels,
+                labels: labels.map((_, i) => customLabels[Math.floor(i / (labels.length / customLabels.length))]),
                 datasets: [
                   {
                     label: 'Direct Radiation',
-                    data: directRadiationData,
-                    backgroundColor: 'rgba(255, 206, 86, 0.5)',
-                    borderColor: 'rgba(255, 206, 86, 1)',
+                    data: directRadiation,
+                    borderColor: 'green',
+                    backgroundColor: 'rgba(0, 255, 0, 0.5)',
                     borderWidth: 1.5,
                     fill: true,
                   },
@@ -41,12 +42,18 @@ const WeatherComponent: React.FC = () => {
                 plugins: {
                   title: {
                     display: true,
-                    text: 'Direct Radiation',
+                    text: 'Direct Radiation Variation',
                   },
                 },
                 scales: {
                   y: {
-                    beginAtZero: true,
+                    beginAtZero: false,
+                  },
+                  x: {
+                    title: {
+                      display: true,
+                      text: 'Months',
+                    },
                   },
                 },
               },
@@ -63,12 +70,11 @@ const WeatherComponent: React.FC = () => {
 
   return (
     <div className="p-4">
-      
       <div className="md:flex md:items-center md:justify-between">
         <div className="md:w-1/2">
-        <h2 className="font-semibold">Area Chart: Direct Radiation</h2>
-        <canvas ref={radiationCanvasRef} className="w-full md:w-auto" width={400} height={300} />
-      </div>
+          <h2 className="font-semibold">Area Chart: Direct Radiation Variation</h2>
+          <canvas ref={radiationCanvasRef} className="w-full md:w-auto" width={400} height={300} />
+        </div>
       </div>
     </div>
   );

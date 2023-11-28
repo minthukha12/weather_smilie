@@ -9,18 +9,22 @@ const WeatherComponent: React.FC = () => {
   useEffect(() => {
     const fetchDataAndRenderChart = async () => {
       try {
+        // fetch weather data from weatherservice
         const response = await weatherService.getWeatherData('2023-01-01');
+        //extract from api
         const relativehumidity_2m = response.hourly.relativehumidity_2m;
-        console.log("hey", relativehumidity_2m);
+        
 
         if (humidityCanvasRef.current) {
+          //get canvas context
           const ctx = humidityCanvasRef.current.getContext('2d');
           if (ctx) {
+            //destroy any overlaping existing chart (possible bug in chart.js)
             if (chartInstance.current) {
               chartInstance.current.destroy();
               chartInstance.current = null;
             }
-
+            ///create chart instance
             chartInstance.current = new Chart(ctx, {
               type: 'bar',
               data: {
@@ -61,6 +65,7 @@ const WeatherComponent: React.FC = () => {
   }, []);
 
   return (
+    //responsive layout using tailwind
     <div className="p-4">
       <h1 className="text-2xl font-bold underline">Weather Dashboard</h1>
       <div className="md:flex md:items-center md:justify-between">
