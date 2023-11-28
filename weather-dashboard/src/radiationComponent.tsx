@@ -20,6 +20,7 @@ const WeatherComponent: React.FC = () => {
               chartInstance.destroy();
               chartInstance = null;
             }
+            console.log(directRadiationData)
 
             chartInstance = new Chart(ctx, {
               type: 'line', // Area chart is based on the 'line' type in Chart.js
@@ -63,7 +64,7 @@ const WeatherComponent: React.FC = () => {
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold underline">Weather Dashboard</h1>
+      
       <div>
         <h2 className="font-semibold">Area Chart: Direct Radiation</h2>
         <canvas ref={radiationCanvasRef} width={400} height={300} />

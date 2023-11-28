@@ -70,7 +70,7 @@ const WeatherComponent: React.FC = () => {
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold underline">Weather Dashboard</h1>
+      
       <div>
         <h2 className="font-semibold">Line Chart: Temperature Variation</h2>
         <canvas ref={temperatureCanvasRef} width={400} height={300} />

@@ -22,14 +22,14 @@ const WeatherComponent: React.FC = () => {
             }
 
             chartInstance = new Chart(ctx, {
-              type: 'bar', // Changed to 'bar' for column chart
+              type: 'bar',
               data: {
                 labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'July', 'August', 'September', 'October'],
                 datasets: [
                   {
                     label: 'Relative Humidity',
                     data: relativehumidity_2m,
-                    backgroundColor: 'blue', // Adjust the color as needed
+                    backgroundColor: 'blue',
                     borderColor: 'blue',
                     borderWidth: 1,
                   },
@@ -63,9 +63,11 @@ const WeatherComponent: React.FC = () => {
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold underline">Weather Dashboard</h1>
-      <div>
-        <h2 className="font-semibold">Column Chart: Relative Humidity</h2>
-        <canvas ref={humidityCanvasRef} width={400} height={300} />
+      <div className="md:flex md:items-center md:justify-between">
+        <div className="md:w-1/2">
+          <h2 className="font-semibold">Column Chart: Relative Humidity</h2>
+          <canvas ref={humidityCanvasRef} className="w-full md:w-auto" height={300} />
+        </div>
       </div>
     </div>
   );
