@@ -4,7 +4,7 @@ import weatherService from './WeatherService';
 
 const WeatherComponent: React.FC = () => {
   const temperatureCanvasRef = useRef<HTMLCanvasElement | null>(null);
-  let chartInstance: Chart | null = null;
+  const chartInstance = useRef<Chart | null>(null);
 
   useEffect(() => {
     const fetchDataAndRenderChart = async () => {
@@ -17,12 +17,12 @@ const WeatherComponent: React.FC = () => {
         if (temperatureCanvasRef.current) {
           const ctx = temperatureCanvasRef.current.getContext('2d');
           if (ctx) {
-            if (chartInstance) {
-              chartInstance.destroy();
-              chartInstance = null;
+            if (chartInstance.current) {
+              chartInstance.current.destroy();
+              chartInstance.current = null;
             }
 
-            chartInstance = new Chart(ctx, {
+            chartInstance.current = new Chart(ctx, {
               type: 'line',
               data: {
                 labels: labels,
@@ -70,10 +70,11 @@ const WeatherComponent: React.FC = () => {
 
   return (
     <div className="p-4">
-      
-      <div>
+      <div className="md:flex md:items-center md:justify-between">
+        <div className="md:w-1/2">
         <h2 className="font-semibold">Line Chart: Temperature Variation</h2>
-        <canvas ref={temperatureCanvasRef} width={400} height={300} />
+        <canvas ref={temperatureCanvasRef} className="w-full md:w-auto" width={400} height={300} />
+      </div>
       </div>
     </div>
   );

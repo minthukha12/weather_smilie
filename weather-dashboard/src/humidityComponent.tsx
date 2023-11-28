@@ -4,7 +4,7 @@ import weatherService from './WeatherService';
 
 const WeatherComponent: React.FC = () => {
   const humidityCanvasRef = useRef<HTMLCanvasElement | null>(null);
-  let chartInstance: Chart | null = null;
+  const chartInstance = useRef<Chart | null>(null);
 
   useEffect(() => {
     const fetchDataAndRenderChart = async () => {
@@ -16,12 +16,12 @@ const WeatherComponent: React.FC = () => {
         if (humidityCanvasRef.current) {
           const ctx = humidityCanvasRef.current.getContext('2d');
           if (ctx) {
-            if (chartInstance) {
-              chartInstance.destroy();
-              chartInstance = null;
+            if (chartInstance.current) {
+              chartInstance.current.destroy();
+              chartInstance.current = null;
             }
 
-            chartInstance = new Chart(ctx, {
+            chartInstance.current = new Chart(ctx, {
               type: 'bar',
               data: {
                 labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'July', 'August', 'September', 'October'],

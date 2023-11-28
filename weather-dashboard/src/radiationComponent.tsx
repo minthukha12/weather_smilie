@@ -4,7 +4,7 @@ import weatherService from './WeatherService';
 
 const WeatherComponent: React.FC = () => {
   const radiationCanvasRef = useRef<HTMLCanvasElement | null>(null);
-  let chartInstance: Chart | null = null;
+  const chartInstance = useRef<Chart | null>(null);
 
   useEffect(() => {
     const fetchDataAndRenderChart = async () => {
@@ -16,24 +16,23 @@ const WeatherComponent: React.FC = () => {
         if (radiationCanvasRef.current) {
           const ctx = radiationCanvasRef.current.getContext('2d');
           if (ctx) {
-            if (chartInstance) {
-              chartInstance.destroy();
-              chartInstance = null;
+            if (chartInstance.current) {
+              chartInstance.current.destroy();
+              chartInstance.current = null;
             }
-            console.log(directRadiationData)
 
-            chartInstance = new Chart(ctx, {
-              type: 'line', // Area chart is based on the 'line' type in Chart.js
+            chartInstance.current = new Chart(ctx, {
+              type: 'line',
               data: {
                 labels: labels,
                 datasets: [
                   {
                     label: 'Direct Radiation',
                     data: directRadiationData,
-                    backgroundColor: 'rgba(255, 206, 86, 0.5)', // Area color with transparency
-                    borderColor: 'rgba(255, 206, 86, 1)', // Border color
+                    backgroundColor: 'rgba(255, 206, 86, 0.5)',
+                    borderColor: 'rgba(255, 206, 86, 1)',
                     borderWidth: 1.5,
-                    fill: true, // Fill area under the line
+                    fill: true,
                   },
                 ],
               },
@@ -65,9 +64,11 @@ const WeatherComponent: React.FC = () => {
   return (
     <div className="p-4">
       
-      <div>
+      <div className="md:flex md:items-center md:justify-between">
+        <div className="md:w-1/2">
         <h2 className="font-semibold">Area Chart: Direct Radiation</h2>
-        <canvas ref={radiationCanvasRef} width={400} height={300} />
+        <canvas ref={radiationCanvasRef} className="w-full md:w-auto" width={400} height={300} />
+      </div>
       </div>
     </div>
   );
